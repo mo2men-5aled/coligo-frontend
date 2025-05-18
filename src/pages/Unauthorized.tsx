@@ -1,39 +1,37 @@
-import { Image, Text, Box, Center, Button } from "@chakra-ui/react";
+import { Box, Typography, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import unauthorized from "../assets/Unauthorized.png";
 
 const Unauthorized = () => {
   const navigate = useNavigate();
+
   return (
     <Box
-      minH="100vh"
+      minHeight="100vh"
       display="flex"
-      alignItems="center"
       justifyContent="center"
+      alignItems="center"
     >
-      <Center>
-        <Box width="35rem">
-          <Image src={unauthorized} alt="unauthorized" />
-          <Text fontSize="2xl" textAlign="center">
-            You are not authorized to view this page. Please login to continue.
-          </Text>
-
-          <Center>
-            <Button
-              size="lg"
-              variant="solid"
-              mt={4}
-              colorScheme="blue"
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              Login
-            </Button>
-          </Center>
-        </Box>
-      </Center>
+      <Container maxWidth="sm" sx={{ textAlign: "center" }}>
+        <Box
+          component="img"
+          src={unauthorized}
+          alt="unauthorized"
+          sx={{ width: "100%", maxWidth: 560, mb: 2 }}
+        />
+        <Typography variant="h5" gutterBottom>
+          You are not authorized to view this page. Please login to continue.
+        </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          sx={{ mt: 2 }}
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </Button>
+      </Container>
     </Box>
   );
 };
