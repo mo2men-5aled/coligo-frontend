@@ -11,16 +11,17 @@ export const useAnnouncements = () => {
   const { announcements, status, error, meta } = useAppSelector(
     (state) => state.announcements
   );
-  console.log(announcements)
+  console.log(announcements);
   const isTeacher = useAppSelector(
     (state) => state.auth.user?.user.role === "teacher"
   );
 
   useEffect(() => {
     if (status === "idle") {
-      const thunkAction = isTeacher
-        ? fetchMyAnnouncementsThunk({ page: meta.page, limit: meta.limit })
-        : fetchAnnouncementsThunk({ page: meta.page, limit: meta.limit });
+      const thunkAction = fetchAnnouncementsThunk({
+        page: meta.page,
+        limit: meta.limit,
+      });
       dispatch(thunkAction);
     }
   }, [status, meta.page, meta.limit, dispatch, isTeacher]);
