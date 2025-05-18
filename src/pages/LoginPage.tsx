@@ -11,10 +11,8 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { login } from "../api/login";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
 import {
   authorize,
@@ -28,16 +26,21 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const { authorize: AuthAuthorize } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (credentials: { email: string; password: string }) =>
-      login(credentials.email, credentials.password),
-    onSuccess: (data) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrors([]);
+
+    try {
+      const data = await login(email, password);
+
       AuthAuthorize(data.data.access_token);
       dispatch(authorize());
       dispatch(setUser(data.data));
@@ -47,25 +50,11 @@ export default function LoginPage() {
         dispatch(authorizeTeacher());
       }
 
-      navigate("/");
-
       enqueueSnackbar("Login successful", { variant: "success" });
-    },
-    onError: (error: Error | { response: { data: { message: string } } }) => {
-      if (error instanceof Error) {
-        enqueueSnackbar(error.message, { variant: "error" });
-      }
-      if ("response" in error) {
-        setErrors([error.response.data.message]);
-      } else {
-        setErrors([error.message]);
-      }
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutate({ email, password });
+      navigate("/");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -109,14 +98,14 @@ export default function LoginPage() {
                 color="primary"
                 type="submit"
                 fullWidth
-                disabled={isPending}
+                disabled={loading}
                 startIcon={
-                  isPending ? (
+                  loading ? (
                     <CircularProgress size={20} color="inherit" />
                   ) : null
                 }
               >
-                {isPending ? "Logging in..." : "Login"}
+                {loading ? "Logging in..." : "Login"}
               </Button>
               <Typography align="center">
                 Don't have an account?{" "}
