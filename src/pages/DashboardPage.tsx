@@ -10,7 +10,7 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
-  Grid
+  Grid,
 } from "@mui/material";
 import { useQuizzes } from "../hooks/useQuizzes";
 import { useAnnouncements } from "../hooks/useAnnouncements";
@@ -55,15 +55,19 @@ const DashboardPage: React.FC = () => {
         <Typography
           variant="h3"
           component="h1"
-          sx={{ mb: { xs: 3, sm: 4 }, fontWeight: 700, fontSize: { xs: "2rem", sm: "2.5rem" } }}
+          sx={{
+            mb: { xs: 3, sm: 4 },
+            fontWeight: 700,
+            fontSize: { xs: "2rem", sm: "2.5rem" },
+          }}
         >
           Dashboard
         </Typography>
 
-        <Grid container spacing={4}>
-          <Grid xs={12} md={4}>
+        <Grid container spacing={2}>
+          <Grid>
             <Paper
-              elevation={3}
+              elevation={4}
               sx={{
                 p: { xs: 2, sm: 3 },
                 borderRadius: 3,
@@ -79,13 +83,19 @@ const DashboardPage: React.FC = () => {
               <Typography
                 variant="h5"
                 component="h2"
-                sx={{ mb: 2, fontWeight: 600, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+                sx={{
+                  mb: 2,
+                  fontWeight: 600,
+                  fontSize: { xs: "1.2rem", sm: "1.5rem" },
+                }}
               >
                 Upcoming Quizzes
               </Typography>
 
               {quizzes?.length === 0 ? (
-                <Typography color="text.secondary">No upcoming quizzes found.</Typography>
+                <Typography color="text.secondary">
+                  No upcoming quizzes found.
+                </Typography>
               ) : (
                 <Stack spacing={2}>
                   {quizzes?.map((quiz) => (
@@ -104,13 +114,19 @@ const DashboardPage: React.FC = () => {
                         },
                       }}
                     >
-                      <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                      <Typography
+                        variant="subtitle1"
+                        fontWeight={600}
+                        gutterBottom
+                      >
                         {quiz.title}
                       </Typography>
                       <Typography sx={{ mb: 1 }} color="text.secondary">
                         {quiz.description}
                       </Typography>
-                      <Typography sx={{ fontWeight: 500, color: "primary.main" }}>
+                      <Typography
+                        sx={{ fontWeight: 500, color: "primary.main" }}
+                      >
                         Date: {new Date(quiz.date).toLocaleDateString()}
                       </Typography>
                     </Paper>
@@ -121,12 +137,12 @@ const DashboardPage: React.FC = () => {
           </Grid>
 
           {isSmDown && (
-            <Grid xs={12}>
+            <Grid>
               <Divider sx={{ my: 3 }} />
             </Grid>
           )}
 
-          <Grid xs={12} md={8}>
+          <Grid>
             <Paper
               elevation={3}
               sx={{
@@ -144,13 +160,19 @@ const DashboardPage: React.FC = () => {
               <Typography
                 variant="h5"
                 component="h2"
-                sx={{ mb: 2, fontWeight: 600, fontSize: { xs: "1.2rem", sm: "1.5rem" } }}
+                sx={{
+                  mb: 2,
+                  fontWeight: 600,
+                  fontSize: { xs: "1.2rem", sm: "1.5rem" },
+                }}
               >
                 Latest Announcements
               </Typography>
 
               {announcements?.length === 0 ? (
-                <Typography color="text.secondary">No announcements found.</Typography>
+                <Typography color="text.secondary">
+                  No announcements found.
+                </Typography>
               ) : (
                 <Stack spacing={2}>
                   {announcements?.slice(0, 5).map((announcement) => (
@@ -169,14 +191,22 @@ const DashboardPage: React.FC = () => {
                         },
                       }}
                     >
-                      <Typography variant="subtitle1" fontWeight={600} gutterBottom>
+                      <Typography
+                        variant="subtitle1"
+                        fontWeight={600}
+                        gutterBottom
+                      >
                         {announcement.title}
                       </Typography>
                       <Typography sx={{ mb: 1 }} color="text.secondary">
                         {announcement.content}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                        Posted: {new Date(announcement.postedAt).toLocaleDateString()}
+                      <Typography
+                        variant="body2"
+                        sx={{ color: "text.secondary" }}
+                      >
+                        Posted:{" "}
+                        {new Date(announcement.postedAt).toLocaleDateString()}
                       </Typography>
                     </Paper>
                   ))}

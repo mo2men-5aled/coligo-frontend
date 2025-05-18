@@ -1,4 +1,12 @@
-import { Box, IconButton, AppBar, Toolbar, Typography, Divider, Button } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Typography,
+  Divider,
+  Button,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
@@ -17,10 +25,8 @@ const Header = ({ showSidebarButton = true, onShowSidebar }: HeaderProps) => {
   // Get the logged-in user from Redux
   const user = useAppSelector((state) => state.auth.user?.user);
 
-  // split the user name to get the first name only 
-  const firstName:string = user?.name.split(" ")[0];
-  
-
+  // split the user name to get the first name only
+  const firstName: string = user?.name.split(" ")[0] ?? "";
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -41,7 +47,12 @@ const Header = ({ showSidebarButton = true, onShowSidebar }: HeaderProps) => {
           }}
         >
           {/* Sidebar Button */}
-          <Box sx={{ display: showSidebarButton && isMobile ? "block" : "none", mr: 2 }}>
+          <Box
+            sx={{
+              display: showSidebarButton && isMobile ? "block" : "none",
+              mr: 2,
+            }}
+          >
             <IconButton
               aria-label="Open Sidebar"
               onClick={onShowSidebar}

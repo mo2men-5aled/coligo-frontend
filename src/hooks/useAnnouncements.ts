@@ -11,7 +11,6 @@ export const useAnnouncements = () => {
   const { announcements, status, error, meta } = useAppSelector(
     (state) => state.announcements
   );
-  console.log(announcements);
   const isTeacher = useAppSelector(
     (state) => state.auth.user?.user.role === "teacher"
   );
